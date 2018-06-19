@@ -25,26 +25,33 @@ namespace ChatGelados
         #endregion
 
         #region Metodos publicos
-        public Bot(string perguntaNew = "")
+        public Bot()
         {           
-            pergunta = perguntaNew;
+            pergunta = "";
             perguntas = new List<string>();
             respostas = new List<string>();
 
-            
+            switch (DateTime.Now.Hour)
+            {
+                case int hora when hora < 6:
+                    saudacao = "Boa noite!";
+                    break;
+                case int hora when hora < 12:
+                    saudacao = "Bom dia!";
+                    break;
+                case int hora when hora < 20:
+                    saudacao = "Boa tarde!";
+                    break;
+                default:
+                    saudacao = "Boa noite!";
+                    break;
+            }
 
-            if (pergunta == "")
-            {
-                AddRespostas(
-                    new List<string>(){
-                        "Bom dia!",
-                        "Em que posso ser util?"
-                });   
-            }
-            else
-            {
-                perguntas.Add(pergunta);
-            }
+            AddRespostas(
+                new List<string>(){
+                    saudacao,
+                    "Em que posso ser util?"
+            });   
         }
 
         public async Task ProcuraResposta(string perguntaNew = "")
@@ -75,17 +82,17 @@ namespace ChatGelados
 
         private void DataLayer_GotData(bool correuBem, LUIS luis)
         {
-            if (correuBem == false && luis.topScoringIntent.intent != "GetGelado")
+            if (correuBem == false || luis.topScoringIntent.intent != "GetGelado" || luis.entities.Count() == 0)
             {
                 AddRespostas(
                     new List<string>(){
                         "Peço desculpa, mas eu é mais gelados...",
-                        "Para outros temas, por favor contacte outro BOT que não eu."
+                        "Para outros temas, por favor contacte um BOT que não eu."
                 });
                 Bot_GotResposta(ultimaRespostas);
                 return;
             }
-
+            
             string resposta = "Obrigado pela sua encomenda de gelado";
             foreach (Entitie entity in luis.entities)
             {

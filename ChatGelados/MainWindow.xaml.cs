@@ -30,6 +30,7 @@ namespace ChatGelados
 
         }
 
+        #region Metodos privados
         private async void ButtonSend_Click(object sender, RoutedEventArgs e)
         {
             TextBlock textBlock1 = new TextBlock();
@@ -90,5 +91,6 @@ namespace ChatGelados
                 ButtonSend_Click(ButtonSend, null);
             }
         }
+        #endregion
     }
 }
