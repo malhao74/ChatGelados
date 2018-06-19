@@ -9,7 +9,7 @@ namespace ChatGelados
 {
     class Bot
     {
-        #region Delaracao de variaveis
+        #region Declaracao de variaveis
         public string pergunta;
         public List<string> perguntas;
         public List<string> respostas;
@@ -17,9 +17,6 @@ namespace ChatGelados
 
         public delegate void Got_Resposta(List<string> respostas);
         public event Got_Resposta Bot_GotResposta;
-
-        private double latitude;
-        private double longitude;
 
         private string saudacao;
         #endregion
@@ -51,7 +48,7 @@ namespace ChatGelados
                 new List<string>(){
                     saudacao,
                     "Em que posso ser util?"
-            });   
+            });
         }
 
         public async Task ProcuraResposta(string perguntaNew = "")
@@ -115,6 +112,7 @@ namespace ChatGelados
             Bot_GotResposta(ultimaRespostas);
             return;
         }
+
         #endregion
     }
 }
